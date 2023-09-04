@@ -1,8 +1,10 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import Select from "react-select";
 import { useForm, Controller } from "react-hook-form";
 import { createEmployee, getDepartment, getDesignation } from "../api/api";
 import { convertSelectOption } from "../assets/helper";
+import { useNavigate } from "react-router-dom";
+import AppContext from "./AppCoontext";
 
 const defaultData = {
   actualDesignation: "test field",
@@ -13,17 +15,52 @@ const defaultData = {
   isCOPSMainUser: true,
   isCOPSOutOfOffice: true,
   totalCapacity: 0,
+  masterDesignationId: 1,
 };
 
-function EployeeForm({ region, branch, salesOffice }) {
-  const { register, handleSubmit, control, errors } = useForm();
+function EmployeeForm({ region, branch, salesOffice }) {
+  let defaultValues = {
+    emp_id: "",
+    name: "",
+    actualDesignationId: "",
+    mobile: "",
+    email: "",
+    maxLoadPerDay: "",
+    priorityOtherBranch: "",
+    maxLoadOtherBranch: "",
+    maxLoadOwnBranch: "",
+    masterRegionIds: [],
+    masterBranchIds: [],
+    masterSalesOfficeIds: [],
+    masterDepartmentId: 1,
+    actualDesignation: "test field",
+    isViewCustomers: true,
+    isViewQuotation: true,
+    nextUserId: 1,
+    copsUserId: 1,
+    isCOPSMainUser: true,
+    isCOPSOutOfOffice: true,
+    totalCapacity: 0,
+    masterDesignationId: 1,
+  };
+
+  const navigate = useNavigate();
+  const { editEmployee } = useContext(AppContext);
+  const { register, handleSubmit, control, errors } = useForm({defaultValues});
   const [designationOption, setDesignationOption] = useState([]);
   const [departmentOption, setDepartmentOption] = useState([]);
+
+  useEffect(() => {
+    if (Object.keys(editEmployee).length > 0) {
+      defaultValues = editEmployee;
+    }
+  }, [editEmployee]);
 
   const [selectedOption, setSelectedOption] = useState({
     region: "",
     branch: "",
   });
+
   const regionOption = useMemo(() => {
     return convertSelectOption(region);
   }, [region]);
@@ -65,7 +102,13 @@ function EployeeForm({ region, branch, salesOffice }) {
   }, []);
 
   const onSubmit = async (data) => {
-    const response = await createEmployee(JSON.stringify({...data,...defaultData}));
+    const response = await createEmployee(
+      JSON.stringify({ ...data, ...defaultData })
+    );
+
+    if (response.status === 200) {
+      navigate("/employee");
+    }
   };
 
   return (
@@ -183,7 +226,7 @@ function EployeeForm({ region, branch, salesOffice }) {
                     options={departmentOption}
                     className="shadow-lg"
                     value={departmentOption.find((c) => c.value === value)}
-                    onChange={(val) => onChange([val.value])}
+                    onChange={(val) => onChange(val.value)}
                     required
                   />
                 )}
@@ -326,18 +369,18 @@ function EployeeForm({ region, branch, salesOffice }) {
             </div>
           </div>
         </div>
+        <div className="w-full flex justify-end">
+          <button
+            type="submit"
+            onClick={() => onSubmit("data")}
+            className="text-md w-32  bg-blue-700 hover:bg-blue-400 rounded-lg shadow-md py-2 text-white"
+          >
+            Save
+          </button>
+        </div>
       </form>
-      <div className="w-full flex justify-end">
-        <button
-          type="submit"
-          onClick={() => onSubmit("data")}
-          className="text-md w-32  bg-blue-700 hover:bg-blue-400 rounded-lg shadow-md py-2 text-white"
-        >
-          Save
-        </button>
-      </div>
     </>
   );
 }
 
-export default EployeeForm;
+export default EmployeeForm;

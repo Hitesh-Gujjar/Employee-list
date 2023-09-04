@@ -1,9 +1,8 @@
-import React, { useState,useEffect, memo } from "react";
+import React, { memo, useState, useEffect } from "react";
 import EmployeeForm from "../../components/EmployeeForm";
 import { getBranch, getMasterSalesOffice, getRegion } from "../../api/api";
 
-
-function AddEmployee() {
+function EditEmployee() {
   const [region, setRegion] = useState([]);
   const [branch, setBranch] = useState([]);
   const [salesOffice, setSalesOffice] = useState([]);
@@ -15,7 +14,6 @@ function AddEmployee() {
       }
     });
   };
-
   const getBranchOption = async () => {
     getBranch().then((res) => {
       if (res.data.status === 200) {
@@ -23,7 +21,6 @@ function AddEmployee() {
       }
     });
   };
-
   const getSalesOfficeOption = async () => {
     getMasterSalesOffice().then((res) => {
       if (res.data.status === 200) {
@@ -57,4 +54,4 @@ function AddEmployee() {
   );
 }
 
-export default memo(AddEmployee);
+export default memo(EditEmployee);

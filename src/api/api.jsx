@@ -13,7 +13,7 @@ const getLoginUser = async (data) => {
     }
     return response;
   } catch (error) {
-    throw new Error(error.message);
+     return error
   }
 };
 
@@ -52,7 +52,7 @@ const getMasterSalesOffice = async () => {
     );
     return response;
   } catch (error) {
-    throw new Error(error.message);
+     return error
   }
 };
 
@@ -61,7 +61,7 @@ const getDepartment = async () => {
     const response = await axiosInstance.get(`${url}/MasterDepartment/getalls`);
     return response;
   } catch (error) {
-    throw new Error(error.message);
+     return error
   }
 };
 
@@ -72,16 +72,17 @@ const getDesignation = async () => {
     );
     return response;
   } catch (error) {
-    throw new Error(error.message);
+    return error
   }
 };
 
 const createEmployee = async (data) => {
   try {
     const response = await axiosInstance.post(`${url}/MasterEmployee`, data);
+    console.log(".........createEmployee","createEmployee",response)
     return response;
   } catch (error) {
-    throw new Error(error.message);
+    return error
   }
 };
 

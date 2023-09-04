@@ -1,22 +1,11 @@
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, memo, useContext, useEffect, useState } from "react";
 import { getEmployeeList } from "../../api/api";
 import { Link } from "react-router-dom";
+import AppContext from "../../components/AppCoontext";
 
 function EmployeList() {
-  const [employee, setEmploye] = useState([]);
-  const jwtToken = localStorage.getItem("token");
+  const { employee, editEmployee, setEditEmployee } = useContext(AppContext);
 
-  useEffect(() => {
-    if (jwtToken) {
-      getEmployeList();
-    }
-  }, []);
-
-  const getEmployeList = () => {
-    getEmployeeList().then((res) => {
-      setEmploye(res.data.data);
-    });
-  };
   return (
     <Suspense fallback={<div>Loading</div>}>
       <div className="px-4 sm:px-6 lg:px-8 m-12">
@@ -78,9 +67,10 @@ function EmployeList() {
                       </th>
                     </tr>
                   </thead>
+
                   <tbody className="divide-y divide-gray-200">
                     {employee.map((person) => (
-                      <tr key={person.email}>
+                      <tr key={person.id}>
                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
                           {person.name}
                         </td>
@@ -94,12 +84,16 @@ function EmployeList() {
                           {person.designationName}
                         </td>
                         <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                          <a
-                            href="#"
-                            className="text-indigo-600 hover:text-indigo-900"
-                          >
-                            Edit<span className="sr-only">, {person.name}</span>
-                          </a>
+                          <div className="text-indigo-600 hover:text-indigo-900">
+                            <Link
+                              to="/edit-employee"
+                              onClick={() => {
+                                setEditEmployee(person);
+                              }}
+                            >
+                              Edit
+                            </Link>
+                          </div>
                         </td>
                       </tr>
                     ))}
@@ -118,4 +112,4 @@ function EmployeList() {
   );
 }
 
-export default EmployeList;
+export default memo(EmployeList);
