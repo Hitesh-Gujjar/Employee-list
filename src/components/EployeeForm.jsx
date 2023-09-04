@@ -4,29 +4,15 @@ import { useForm, Controller } from "react-hook-form";
 import { createEmployee, getDepartment, getDesignation } from "../api/api";
 import { convertSelectOption } from "../assets/helper";
 
-const blankObject = {
-  name: "waqkar fsdfsd",
-  masterDepartmentId: 1,
-  masterRegionIds: [2],
-  masterBranchIds: [13],
-  masterSalesOfficeIds: [2],
-  masterDesignationId: 1,
-  mobile: 9999999999,
+const defaultData = {
   actualDesignation: "test field",
-  userId: 1,
-  email: "test@email.com",
   isViewCustomers: true,
   isViewQuotation: true,
-  actualDesignationId: 1,
   nextUserId: 1,
   copsUserId: 1,
   isCOPSMainUser: true,
   isCOPSOutOfOffice: true,
-  maxLoadPerDay: 10,
-  totalCapacity: 10,
-  maxLoadOwnBranch: 10,
-  maxLoadOtherBranch: 10,
-  priorityOtherBranch: 10,
+  totalCapacity: 0,
 };
 
 function EployeeForm({ region, branch, salesOffice }) {
@@ -79,7 +65,7 @@ function EployeeForm({ region, branch, salesOffice }) {
   }, []);
 
   const onSubmit = async (data) => {
-    const response = await createEmployee(blankObject);
+    const response = await createEmployee(JSON.stringify({...data,...defaultData}));
   };
 
   return (

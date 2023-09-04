@@ -1,10 +1,5 @@
 import axiosInstance from "./axios";
-
 const url = "http://drivequote-dev.webmyneproduct.com/api";
-const jwtToken = localStorage.getItem("token");
-const headers = {
-  Authorization: `Bearer ${jwtToken}`,
-};
 
 const getLoginUser = async (data) => {
   try {
@@ -24,10 +19,7 @@ const getLoginUser = async (data) => {
 
 const getEmployeeList = async () => {
   try {
-    const response = await axiosInstance.get(`${url}/MasterEmployee/getalls`, {
-      headers,
-    });
-
+    const response = await axiosInstance.get(`${url}/MasterEmployee/getalls`);
     return response;
   } catch (error) {
     throw new Error(error.message);
@@ -36,9 +28,7 @@ const getEmployeeList = async () => {
 
 const getRegion = async () => {
   try {
-    const response = await axiosInstance.get(`${url}/MasterRegion/getalls`, {
-      headers,
-    });
+    const response = await axiosInstance.get(`${url}/MasterRegion/getalls`);
     return response;
   } catch (error) {
     throw new Error(error.message);
@@ -47,9 +37,7 @@ const getRegion = async () => {
 // http://drivequote-dev.webmyneproduct.com/api/MasterBranch/getalls
 const getBranch = async () => {
   try {
-    const response = await axiosInstance.get(`${url}/MasterBranch/getalls`, {
-      headers,
-    });
+    const response = await axiosInstance.get(`${url}/MasterBranch/getalls`);
     return response;
   } catch (error) {
     throw new Error(error.message);
@@ -60,10 +48,7 @@ const getBranch = async () => {
 const getMasterSalesOffice = async () => {
   try {
     const response = await axiosInstance.get(
-      `${url}/MasterSalesOffice/getalls`,
-      {
-        headers,
-      }
+      `${url}/MasterSalesOffice/getalls`
     );
     return response;
   } catch (error) {
@@ -73,12 +58,7 @@ const getMasterSalesOffice = async () => {
 
 const getDepartment = async () => {
   try {
-    const response = await axiosInstance.get(
-      `${url}/MasterDepartment/getalls`,
-      {
-        headers,
-      }
-    );
+    const response = await axiosInstance.get(`${url}/MasterDepartment/getalls`);
     return response;
   } catch (error) {
     throw new Error(error.message);
@@ -88,26 +68,19 @@ const getDepartment = async () => {
 const getDesignation = async () => {
   try {
     const response = await axiosInstance.get(
-      `${url}/MasterDesignation/getalls`,
-      {
-        headers,
-      }
+      `${url}/MasterDesignation/getalls`
     );
     return response;
   } catch (error) {
     throw new Error(error.message);
   }
 };
-// post(apiUrl, postData, { headers })
+
 const createEmployee = async (data) => {
   try {
-    const response = await axiosInstance.post(`${url}/MasterEmployee`, {data}, {
-      headers,
-    });
-    console.log(response);
+    const response = await axiosInstance.post(`${url}/MasterEmployee`, data);
     return response;
   } catch (error) {
-    console.log(error);
     throw new Error(error.message);
   }
 };
