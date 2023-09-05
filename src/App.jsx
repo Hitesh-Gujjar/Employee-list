@@ -1,4 +1,3 @@
-import "./App.css";
 import Login from "./pages/Login/Login";
 import WelCome from "./components/WelCome";
 import { Routes, Route } from "react-router-dom";
