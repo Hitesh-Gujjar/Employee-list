@@ -14,6 +14,7 @@ function EditEmployee() {
       }
     });
   };
+  
   const getBranchOption = async () => {
     getBranch().then((res) => {
       if (res.data.status === 200) {
@@ -34,6 +35,7 @@ function EditEmployee() {
     getBranchOption();
     getSalesOfficeOption();
   }, []);
+
   return (
     <>
       <div className="w-full flex justify-center items-center text-center my-12">

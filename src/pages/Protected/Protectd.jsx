@@ -8,6 +8,7 @@ const Protectd = ({ Component }) => {
   useEffect(() => {
     if (!jwtToken) {
       navigate("/login");
+      return;
     }
   }, []);
 

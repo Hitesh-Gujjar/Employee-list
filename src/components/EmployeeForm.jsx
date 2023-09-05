@@ -46,8 +46,10 @@ function EmployeeForm({ region, branch, salesOffice }) {
 
   const navigate = useNavigate();
   const { editEmployee } = useContext(AppContext);
-  const { register, handleSubmit, control, errors } = useForm({defaultValues});
-  const [designationOption, setDesignationOption] = useState([]);
+  const { register, handleSubmit, control, errors } = useForm({
+    defaultValues: Object.keys(editEmployee).length > 0 ? editEmployee : {},
+  });
+  // const [designationOption, setDesignationOption] = useState([]);
   const [departmentOption, setDepartmentOption] = useState([]);
 
   useEffect(() => {

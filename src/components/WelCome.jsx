@@ -1,7 +1,13 @@
 import React from "react";
-import {Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function WelCome() {
+  let isOpenPage = false;
+
+  if (!isOpenPage) {
+    localStorage.removeItem("token");
+    isOpenPage = true;
+  }
 
   return (
     <div className="h-full  ">

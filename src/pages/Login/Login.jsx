@@ -4,11 +4,18 @@ import { useNavigate } from "react-router-dom";
 
 function Login() {
   const navigate = useNavigate();
-  
+  const [checkLogin, setCheckLogin] = useState(false);
+  const [isLoginPage, setIsLoginPage] = useState(false);
+
   const [credential, setCredential] = useState({
     userName: "admin",
     password: "admin",
   });
+
+  if(!isLoginPage){
+    localStorage.removeItem("token");
+    setIsLoginPage(true)
+  }
 
   //onchange on login field;
   const handleCredential = (name, value) => {
@@ -18,12 +25,13 @@ function Login() {
   //onClick sing in
   const onSingIn = async (e) => {
     e.preventDefault();
-
+    setCheckLogin(true);
     //call login api
     const response = await getLoginUser(credential);
     localStorage.setItem("token", response.data.data.accessToken);
 
     if (response.data.status === 200) {
+      setCheckLogin(false);
       return navigate("/employee");
     }
 
@@ -61,12 +69,26 @@ function Login() {
               placeholder="Password"
             />
           </div>
-          <button
-            type="submit"
-            className="w-full py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white font-semibold rounded-md"
-          >
-            Sign in
-          </button>
+          {checkLogin ? (
+            <button
+              type="button"
+              className="w-full flex py-2 justify-center px-4 bg-blue-800 hover:bg-blue-600 text-white font-semibold rounded-md"
+              disabled
+            >
+              <svg
+                class="animate-spin text-white h-5 w-5 mr-3 ..."
+                viewBox="0 0 24 24"
+              ></svg>
+              Processing...
+            </button>
+          ) : (
+            <button
+              type="submit"
+              className="w-full py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white font-semibold rounded-md"
+            >
+              Sign in
+            </button>
+          )}
         </form>
       </div>
     </div>

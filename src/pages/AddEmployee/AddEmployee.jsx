@@ -37,6 +37,7 @@ function AddEmployee() {
     getBranchOption();
     getSalesOfficeOption();
   }, []);
+  
   return (
     <>
       <div className="w-full flex justify-center items-center text-center my-12">
