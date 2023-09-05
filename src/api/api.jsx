@@ -79,7 +79,6 @@ const getDesignation = async () => {
 const createEmployee = async (data) => {
   try {
     const response = await axiosInstance.post(`${url}/MasterEmployee`, data);
-    console.log(".........createEmployee","createEmployee",response)
     return response;
   } catch (error) {
     return error
